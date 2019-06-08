@@ -1,0 +1,87 @@
+{% extends "../layouts/defaults.html" %}
+{% load svg %}
+{% block content %}
+<main>
+  <div class="details details-grid">
+    <div class="details-content">
+      <div class="image-apps">
+        <img src="{{ post.0.image }}">
+      </div>
+      <div class="details-title">
+        <h1>{{ post.0.title }}</h1>
+        <div class="subtitle-col1">
+          <span class="release" style="font-weight: 700; color: #33691e">{{ details.0.developer }}</span>
+          <span class="genre" style="position:unset; color: #33691e">{{ details.0.category }}</span>
+        </div>
+        <div class="subtitle-col2">
+          <span class="counticon">{% svg 'user' %}</span>
+          <span class="countrating">{{ details.0.rating }}</span>
+          <div class="details-rating details-rating--{{ details.0.star }}"></div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="col-watch">
+          <button class="watch" type="button" name="button" style="background-color: #689f38">Server #1</button>
+          <button class="watch" type="button" name="button" style="background-color: #689f38">Server #2</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="zoom-gallery gallery-module">
+      <ul class="gallery-slider">
+        {% for item in screenshot %}
+        <li>
+          <a href="{{item}}=w1280-h644">
+            <img src="{{item}}=w720-h310" alt="{{ post.0.title }}">
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    </div>
+    <div class="details-desc">
+      <p>{{ post.0.content }}</p>
+      <div class="submenu-divider"></div>
+      <h2 class="header-title">ADDITIONAL INFORMATION</h2>
+      <div class="col-md-12">
+      {% for item in additional %}
+          <div class="span-footer3" style="padding:10px 5px;">
+            <p>{{item}}</p>
+          </div>
+      {% endfor %}
+      </div>
+      <div class="col-md-12"><div class="submenu-divider"></div></div>
+    </div>
+  </div>
+  <div class="similar">
+      <div class="grid-container app-grid">
+        <h3 class="apps-title" style="font-size:20px; font-weight:bold">Similar Posts</h3>
+        {% for item in array|slice:":4" %}
+          {% if item.title == post.0.title %}
+              {{ item.forloop.counter }}
+          {% else %}
+              <div class="app">
+                <a href="{{item.url}}" alt="{{item.title}}">
+                  <div class="app-image">
+                    <img src="http://{{item.image}}" alt="{{item.title}}">
+                  </div>
+                </a>
+                <div onclick="location.href = '{{item.url}}';"  class="app-content">
+                  <div class="app-title">{{item.title}}</div>
+                  <div class="app-publisher">
+                    {% if item.subtitle == None %}
+                        {{ item.forloop.counter.subtitle }}
+                    {% else %}
+                        {{item.subtitle}}
+                    {% endif %}
+                  </div>
+                  <div class="app-rating app-rating--{{item.star}}"></div>
+                  <div class="app-price">FREE</div>
+                </div>
+              </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+  </div>
+</main>
+{% endblock %}

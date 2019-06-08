@@ -1,0 +1,22 @@
+{% extends "layouts/defaults.html" %}
+{% block content %}
+  <main>
+    <div class="grid-container books-grid">
+      <h1 class="apps-title">Recommended for You</h1>
+      {% for item in array %}
+          <div class="books">
+            <a href="{{item.url}}">
+              <div class="books-image">
+                <img src="http://{{item.image}}" alt="{{item.title}}">
+              </div>
+            </a>
+            <div onclick="location.href = '{{item.url}}';" class="books-content">
+              <div class="books-title">{{item.title}}</div>
+              <div class="books-rating books-rating--{{item.star}}"></div>
+              <div class="books-price">{{item.price}}</div>
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+  </main>
+{% endblock %}

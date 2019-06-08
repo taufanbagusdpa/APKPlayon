@@ -1,0 +1,419 @@
+// RESIZE THE WINDOW TO SEE THE MOBILE VIEW
+$white: #FFF;
+$black: #000;
+$brand: #FF5722;
+$brandContrast: #536DFE;
+$text: #212121;
+$background: #F5F5F5;
+$font-stack: 'Roboto',
+'Helvetica',
+'sans-serif';
+$profile: 'https://lh3.googleusercontent.com/-UOuFk3MaIyE/AAAAAAAAAAI/AAAAAAAAAAA/AOtt-yEtASpZiUmh0TBq1JxqceBZswmVVg/s32-c-mo/photo.jpg';
+$cards: url(https://lh3.googleusercontent.com/f9fTwo3eV8nwjrjGtp52cOdjtfImjnSG-AmaLqmhx74G1hRD-40HtLZJ7Zt-Ig6ZZX4QYcr8hQ) url(https://lh3.googleusercontent.com/X9_1hqQ64YB2nUj8DaQ8Cq0gfTxV-8M5olNz4KZeBRyuP_xARFGq_txPoZ036JHb3zmtBNjYyw) url(https://lh3.googleusercontent.com/EReUo1F8zEmcs-zBgFVq1HqGdND8eLEMXbyFSDKTS5GD3T9pprprFbXsOJSaUXFo_L8b8w6xmKE) url(https://lh3.googleusercontent.com/ngZFFNzbUYWxfBBieWVbe1s2zqLbppu-cUA8tjWCztqlWtfFm3sHXymOchrJi2rfGVORBfSBlVs) url(https://lh3.googleusercontent.com/fUgD06Kz-yTZl-9UnTxBks6dOLwdp3tTEEhvYrT9WtN9Jaf25TklMTfNXFUSWXiz04PBdiKHoA) url(https://lh3.googleusercontent.com/ImqVw-h_GF1R26AjTr8kPwXH5cK8gYk5fFZJ6p7hFD17Cpd-BsiZudWWS-aVU2ws3wU5DiQZxg) url(https://lh3.googleusercontent.com/Vdf53IqQIkNUvq4I7B1FamSywJSjckktikYlCf1YgZb2sy9cMc8sZeBV6pbYIiyJj3iqcg5EWw) url(https://lh3.googleusercontent.com/PONxOYTAVFLbcjN41cNGN_BI6bCFFHNjOSzmCcOMrEsvqjfqR8akF4J0riKQIl89BqBWkHJThg) url(https://lh3.googleusercontent.com/3chpS1Utl_rH49pwob25TQiiafz8yFg8NMb2KWTU4PFhT7ip0wzq-YM4EuNRgClMXGdno-jAj18) url(https://lh3.googleusercontent.com/NuxebnbEsrFnHzihs_7_BPkzu-cGy1KBUqew51Srj0hqHkbuQVfB95o21kg5y2ZRD1AYF_nD) url(https://lh3.googleusercontent.com/oOBpMMGjy6DvWCs7ouK8e3gY8-UhHqvEZy5k6o49uTgjn2Xdxf_y8sBj-ey1WxNorA5yqvYFhw) url(https://lh3.googleusercontent.com/YIrKm7ypJgjquG9bPCpEUcYpGScuoIZ5J5fiqlU5VK5Ko6NamWCnyaH0ydo21Wx63q0L-6C0) url(https://lh3.googleusercontent.com/egm4NgIK-Cmh84GjVgHoATP6DYyCS0_zMvJ8DStQ_io6TPb75NKWtbIBaWPkOJ570-7ra7UKwPw) url(https://lh3.googleusercontent.com/kLRVb3qkSFvnd29cYLZWX47kXTVqVrv2rEO7j9Ogl27vwZwZKGsTnPVN-sit46tWq6i19Ri_PEc) url(https://lh3.googleusercontent.com/CZRaaeCItNnBbKLcos4zEO4EpTpxDRtPldLJ3waQB6wkz36eaIRBJh58VHeOXIj1wx--RMT5) url(https://lh3.googleusercontent.com/DGW6KDjPbsjfOmc2r-9oNfwPwvP3NB-AUv19UPzu5zGs27XEeK-q50lh0i0C1YllpAERaQNF) url(https://lh3.googleusercontent.com/YNyTvjNR26p_tgfkTEHnxj-z1SsdeP44vNzAkJ3eGgSKlQJjCs-lIEmYMv7_B1sxhp2HtpCuwog) url(https://lh3.googleusercontent.com/XKAtazwLKNM6u0--WGkZNBV6uOKZTLaZp0TV8XkIBTz0jNccHl8xOYkftW4s8PrtDlxqDmlrZmI) url(https://lh3.googleusercontent.com/LMKahLP_T6kr88DtYnpFK7IkJArbsuZNAZo6xd4WvVDBMhwXxATBUYfX6wWUYvzYwHWwxFU9Sw) url(https://lh3.googleusercontent.com/DbxZFMU64VjJdHPXFIN-ESMOUl4nmJr488scL6MftIAw2__MCPT_6R_xQnwlVNl0R2eL1__q2_Q) url(https://lh3.googleusercontent.com/uASJMQyWGjpbZ8yb6Is-8odp5oOGlfsrlB1hL5IhIfZTpz7g3yrz56X_NEmuKRKsAkXkTixMdw) url(https://lh3.googleusercontent.com/Cd8WRMaG_pDwjTC_dSPIIuf5EJEHUwPOLDreeXPx8wEZgZIZ7yhKBUBeTKsDCMcmJHgW0w7a5Q) url(https://lh3.googleusercontent.com/TFsXkyvcwPtlcBYmyl7Mae8C7DjKbsbSmr4rgIotGPyY-m56SLwC-3qZGPZGpNzETZHhxVqJ) url(https://lh3.googleusercontent.com/3MgcwzgSJ32oIbxgquneCvu3oJKVC6Pae-Saho7jfbCcRoA6KlU7qn8EUsqaTT6dsy5jbNuJ) url(https://lh3.googleusercontent.com/BbYJotljs9GKwGiepqF8nmYDQXPCr2hE0c3RmEN7SDJdtEnXVYLJb6XX0wjC9n1Plq-0VChaWWA) url(https://lh3.googleusercontent.com/JP1KT3xUA-MFA8tLRHC3CvX6nphBYLpCzxB6eIthMYXvF0dXX7I7NITpBT0E3B07CiqRzCqkPQ) url(https://lh3.googleusercontent.com/IreFr66xedOo8t8IPGfAoo2BsTZl3ZslJKQFVIePoVitbFOZgIZhvFKMrCuWoWXi2n2zjTxp) url(https://lh3.googleusercontent.com/1LASHQy0shPSJDGINtkZU6Tb6N1IJOL-GzaUEvOEM0zncK_0JvqZrC-YFvGmPBQEpLanHrft8g) url(https://lh3.googleusercontent.com/FGek_ecdpTCLFbprT7rpADyclgFOgytCXz8z29qT1NpndYfHGfBbJAtwu5TpHtD3u6tB7tHCXA) url(https://lh3.googleusercontent.com/iZ4R5KkC2FSarH6J5nr6FvjmEphjckn0jV1fYLCi3L0Mmr2cUHpDHd5m7gokYKCISxOXDXPLvA) url(https://lh3.googleusercontent.com/s0o3GbvRKoEA3hBKTooThA45XtL7WpcuZ6SOYHB54vhu-Nj6TYDgiakW20O4VPwRcsjzOVsI2g) url(https://lh3.googleusercontent.com/daoWdc25TW5w3DR-GaFuU7KKnQxXgYuP9BIShuOExSfs0Hj_83ahdOq2o3S09TVMq9uHKtZ-tsU) url(https://lh3.googleusercontent.com/E4yy2RMMtXGxVCOW7mhRpyNW3FLnSuMQziDXNgsBfDSQMxRUY8rKr4phBL29Sbx1lBKzTwLbHQ) url(https://lh3.googleusercontent.com/Usv4XpVgsaxemkOG-Na0ba8b2Mqd7houicvj1jY7l6HMOb8uuE_EPLPpzjIDUvNbAa1xD7F9GQ);
+@mixin size($width, $height: $width) {
+	width: $width;
+	height: $height;
+}
+
+// RESET
+*,
+:before,
+:after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	-webkit-tap-highlight-color: rgba($black, 0);
+}
+
+// GENERAL
+body {
+	background: $background;
+	font-family: $font-stack;
+}
+
+header,
+main {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	min-width: 300px;
+	top: 0;
+	right: 0;
+	will-change: width;
+	transform: translateZ(0);
+	transition: .3s;
+}
+
+button,
+input {
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: $font-stack;
+	-webkit-appearance: none;
+}
+
+.menu {
+	@include size(40px);
+	border-radius: 50%;
+	margin: 12px;
+	cursor: pointer;
+	transition: background-color .2s;
+}
+
+.mobile-only {
+	display: none;
+}
+
+.ripple {
+	overflow: hidden;
+	position: relative;
+	-webkit-transform: translateZ(0);
+	.rippling {
+		position: absolute;
+		border-radius: 50%;
+		background-color: #FFF;
+		pointer-events: none;
+		opacity: .4;
+		transform: translate3d(-50%, -50%, 0);
+	}
+}
+
+// HEADER
+header {
+	align-items: center;
+	background: $brand;
+	color: $white;
+	position: fixed;
+	z-index: 5;
+	&.shadow {
+		box-shadow: 0 3px 12px rgba(0, 0, 0, 0.23), 0 3px 12px rgba(0, 0, 0, 0.16);
+	}
+	.menu {
+		background: url(https://cbwconline.com/IMG/Codepen/Menu.svg) center no-repeat;
+		&:hover {
+			background-color: darken($brand, 8%);
+		}
+	}
+	h1 {
+		font-weight: 400;
+		font-size: 20px;
+	}
+	input {
+		background: rgba($white, .3);
+		width: 50vw;
+		max-width: 800px;
+		height: 48px;
+		padding: 12px;
+		border-radius: 3px;
+		margin: 5px auto;
+		color: $white;
+		transition: .3s, width .01s;
+		&:focus,
+		&:active {
+			background: $white;
+			color: $black;
+			box-shadow: 0 8px 10px 1px rgba($black, .1);
+		}
+	}
+	label {
+		@include size(36px);
+		background: url(https://cbwconline.com/IMG/Codepen/Search-White.svg) center no-repeat;
+		border-radius: 50%;
+		&.close {
+			background: url(https://cbwconline.com/IMG/Codepen/Close-White.svg) center no-repeat;
+		}
+	}
+	label {
+		margin-left: auto;
+	}
+	.profile {
+		@include size(36px);
+		background: url($profile) center/contain no-repeat;
+		border-radius: 50%;
+		margin: 0 15px;
+	}
+	ul {
+		display: flex;
+		width: 100%;
+		position: relative;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+	li {
+		flex-shrink: 0;
+		list-style: none;
+		padding: 15px;
+		color: rgba($white, .8);
+		font-size: 14px;
+		font-weight: 500;
+		text-transform: uppercase;
+		user-select: none;
+		cursor: pointer;
+		&.active {
+			color: $white;
+		}
+	}
+	.slider {
+		height: 3px;
+		background: $white;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		transition: .3s;
+	}
+}
+
+// MAIN
+main {
+	justify-content: center;
+	position: absolute;
+}
+
+// CARDS
+.card {
+	@for $i from 1 through length($cards) {
+		&:nth-child(#{$i}) {
+			background-image: nth($cards, $i);
+		}
+	}
+	background-size: contain;
+	box-shadow: 0 1px 4px 0 rgba($black, .35);
+	flex: 1 1 180px;
+	margin: 10px;
+	position: relative;
+	transition: box-shadow .2s;
+	cursor: pointer;
+	&:hover {
+		box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3);
+	}
+	&:after {
+		content: 'Lorem Ipsum...';
+		background: #FFF;
+		height: 56px;
+		width: 100%;
+		padding: 10px;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+	}
+	&.ghost {
+		height: 0 !important;
+		margin: 0 10px;
+		&:after {
+			display: none;
+		}
+	}
+}
+
+// MENU
+.side-menu {
+	justify-content: center;
+	flex-wrap: wrap;
+	background: $white;
+	height: 100%;
+	width: 225px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	transform: translateX(-100%) translateZ(0);
+	transition: .3s;
+	overflow-y: auto;
+	will-change: transform;
+	-webkit-overflow-scrolling: touch;
+	&.active {
+		transform: translateX(0) translateZ(0);
+		~ header .menu {
+			width: 0px;
+			margin: 12px 8px;
+		}
+	}
+	.menu-holder {
+		display: flex;
+		align-items: center;
+		span {
+			color: $brand;
+		}
+	}
+	.menu {
+		background: url(https://cbwconline.com/IMG/Codepen/Menu-Black.svg) center no-repeat;
+		&:hover {
+			background-color: #EEE;
+		}
+	}
+	li {
+		list-style: none;
+		color: $text;
+		font-size: 13px;
+		font-weight: 500;
+		padding: 10px 0 10px 18px;
+		cursor: pointer;
+		white-space: nowrap;
+		line-height: 24px;
+		transition: .2s;
+		&:hover {
+			background: #EEE;
+		}
+		&.active {
+			color: $brand;
+			background: $background;
+		}
+	}
+	.cta {
+		display: block;
+		background: $brandContrast;
+		color: $white;
+		font-size: 16px;
+		text-transform: uppercase;
+		padding: 5px 8px;
+		border-radius: 3px;
+		cursor: pointer;
+		margin: 20px auto;
+	}
+}
+
+// OVERLAY
+.side-menu-overlay {
+	height: 100%;
+	width: 100%;
+	background: rgba($black, .3);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9;
+	visibility: hidden;
+	opacity: 0;
+	transition: .3s;
+}
+
+// aCCOUNT ACTIONS
+.account {
+	background: #EEE;
+	position: fixed;
+	top: 62px;
+	right: 15px;
+	z-index: 6;
+	opacity: 0;
+	visibility: hidden;
+	transform: scale(.5);
+	transform-origin: top right;
+	transition: .15s;
+	box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
+	&:after {
+		content: '';
+		@include size(15px);
+		background: inherit;
+		position: absolute;
+		top: -6px;
+		right: 8px;
+		opacity: 0;
+		visibility: hidden;
+		transform: rotate(45deg) scale(.5);
+		transition: .15s;
+	}
+	&.active {
+		&:after {
+			opacity: 1;
+			visibility: visible;
+			transform: rotate(45deg) scale(1)
+		}
+		opacity: 1;
+		visibility: visible;
+		transform: scale(1);
+	}
+	li {
+		padding: 12px 16px;
+		list-style: none;
+		font: 300 16px Roboto;
+		cursor: pointer;
+		transition: .3s;
+		&:hover {
+			background: darken(#EEE, 5%);
+		}
+	}
+}
+
+// PLACEHOLDERS
+::-webkit-input-placeholder {
+	color: rgba($white, .7);
+	font-size: 16px;
+}
+
+::-moz-placeholder {
+	color: rgba($white, .7);
+	font-size: 16px;
+}
+
+:-ms-input-placeholder {
+	color: rgba($white, .7);
+	font-size: 16px;
+}
+
+// MEDIA QUERIES
+@media (max-width: 1000px) {
+	.side-menu.active ~ header input {
+		width: calc(50vw - 100px);
+	}
+}
+
+@media (max-width: 767px) {
+	.side-menu.active {
+		~ header .menu {
+			margin: 12px;
+			width: 40px;
+		}
+		~ header,
+		~ main {
+			width: 100% !important;
+		}
+		~ header input {
+			width: 50vw;
+		}
+		~ .side-menu-overlay {
+			visibility: visible;
+			opacity: 1;
+		}
+	}
+	.card {
+		flex-basis: 165px;
+	}
+}
+
+@media (max-width: 599px) {
+	.desktop-only {
+		display: none;
+	}
+	.mobile-only {
+		display: inherit;
+	}
+	.profile {
+		margin: 16px !important;
+	}
+	header input {
+		display: none;
+		padding: 0px 12px;
+		font: 400 16px/18px Roboto !important;
+		width: calc(100vw - 130px);
+	}
+	.mobile-input {
+		header h1,
+		header .menu {
+			display: none;
+		}
+		input {
+			display: initial;
+		}
+	}
+}
+
+@media(max-width: 480px) {
+	.card {
+		flex-basis: 140px;
+	}
+}
+
+// IOS STUFF
+.ios * {
+	cursor: pointer;
+}

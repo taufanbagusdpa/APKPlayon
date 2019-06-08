@@ -1,0 +1,27 @@
+<div class="categories">
+  <ul class="col-md-4">
+    {% for item in subcategory|slice:"0:34" %}
+      <li onclick="location.href = '/apps/category/{{item.link}}';" class="ripple">{{item}}</li>
+    {% endfor %}
+  </ul>
+  <ul class="col-md-4">
+    {% for item in subcategory|slice:"34:52" %}
+      {% if item.name == "Games" %}
+        <li onclick="location.href = '/apps/category/{{item.link}}';" class="ripple"><b>{{item}}</b></li>
+        <div class="submenu-divider"></div>
+      {% else %}
+        <li onclick="location.href = '/apps/category/{{item.link}}';" class="ripple">{{item}}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  <ul class="col-md-4">
+    {% for item in subcategory|slice:"52:62" %}
+      {% if item.name == "Family" %}
+        <li onclick="location.href = '/apps/category/{{item.link}}';" class="ripple"><b>{{item}}</b></li>
+        <div class="submenu-divider"></div>
+      {% else %}
+        <li onclick="location.href = '/apps/category/{{item.link}}';" class="ripple">{{item}}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>

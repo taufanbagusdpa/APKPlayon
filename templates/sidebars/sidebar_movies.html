@@ -1,0 +1,7 @@
+<div class="categories" style="overflow:hidden; padding-right:0px;">
+  <ul>
+    {% for item in subcategory %}
+      <li onclick="location.href = '/movies/category/{{item.link}}';" class="ripple">{{item}}</li>
+    {% endfor %}
+  </ul>
+</div>

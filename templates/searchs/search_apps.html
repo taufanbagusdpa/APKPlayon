@@ -1,0 +1,33 @@
+{% extends "layouts/defaults.html" %}
+{% block content %}
+<main>
+  <div class="grid-container app-grid">
+    {% if array|length < 1 %}
+        <h2 class="apps-title" style="text-align:justify">We couldn't find anything for your search - {{q}}.</h2>
+    {% else %}
+        <h1 class="apps-title">Recommended for You</h1>
+        {% for item in array %}
+            <div class="app">
+              <a href="{{item.url}}" alt="{{item.title}}">
+                <div class="app-image">
+                  <img src="http://{{item.image}}" alt="{{item.title}}">
+                </div>
+              </a>
+              <div onclick="location.href = '{{item.url}}';"  class="app-content">
+                <div class="app-title">{{item.title}}</div>
+                <div class="app-publisher">
+                  {% if item.subtitle == None %}
+                      {{ item.forloop.counter.subtitle }}
+                  {% else %}
+                      {{item.subtitle}}
+                  {% endif %}
+                </div>
+                <div class="app-rating app-rating--{{item.star}}"></div>
+                <div class="app-price">FREE</div>
+              </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

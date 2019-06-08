@@ -1,0 +1,118 @@
+{% load static from staticfiles %}
+{% load svg %}
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>{{ appTitle }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
+  <link href='https://fonts.googleapis.com/css?family=Roboto:100,300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+  <link rel="stylesheet" href="{% static 'css/Slick.css' %}">
+</head>
+<body>
+  <div class="side-menu">
+    <div class="menu-holder">
+      <button class="menu" type="menu"></button>
+      <h3>APK <span>Playon</span></h3>
+    </div>
+    <ul>
+      <li onclick="location.href = '/';" class="flex-container android-tag {% if name == 'entertaiment'%}active{% endif %}">
+        {% svg 'entertaiment' %}Dashboard</li>
+      <li onclick="location.href = '/apps';" class="flex-container android-tag {% if name == 'apps'%}active{% endif %}">
+        {% svg 'android' %}Apps</li>
+      <li onclick="location.href = '/movies';" class="flex-container android-tag {% if name == 'movies'%}active{% endif %}">
+        {% svg 'movies' %}Movies</li>
+      <li onclick="location.href = '/books';" class="flex-container android-tag {% if name == 'books'%}active{% endif %}">
+        {% svg 'books' %}Books</li>
+    </ul>
+  </div>
+  <div class="side-menu-overlay"></div>
+  <header>
+    <button class="menu ripple" type="menu"></button>
+    <h1 onclick="location.href = '/';"> {{ appName }} </h1>
+    <form method="POST" action="/post">
+      {% csrf_token %}
+      {% if q == None %}
+        <input class="desktop-only" id="input" type="text" name="q" placeholder="Search..." required />
+      {% else %}
+        <input class="desktop-only" id="input" type="text" name="q" value="{{q}}" required />
+      {% endif %}
+      <label class="mobile-only ripple" for="input"></label>
+    </form>
+      <div class="profile"></div>
+      {% if name == 'apps' %}
+        <ul>
+          <li class="dropdown">Categories<span class="caret"></span></li>
+          <li onclick="location.href = '/apps';" class="ripple {% if subname == 'home' %}active{% endif %}">Home</li>
+          <li onclick="location.href = '/apps/top';" class="ripple {% if subname == 'top' %}active{% endif %}">Top Charts</li>
+          <li onclick="location.href = '/apps/new';" class="ripple {% if subname == 'new' %}active{% endif %}">New Releases</li>
+          <div class="slider"></div>
+        </ul>
+      {% elif name == 'movies' %}
+        <ul>
+          <li class="dropdown">Genres<span class="caret"></span></li>
+          <li onclick="location.href = '/movies';" class="ripple {% if subname == 'home' %}active{% endif %}">Home</li>
+          <li onclick="location.href = '/movies/top';" class="ripple {% if subname == 'top' %}active{% endif %}">Top Charts</li>
+          <li onclick="location.href = '/movies/new';" class="ripple {% if subname == 'new' %}active{% endif %}">New Releases</li>
+          <div class="slider"></div>
+        </ul>
+      {% elif name == 'books' %}
+        <ul>
+          <li class="dropdown">Genres<span class="caret"></span></li>
+          <li onclick="location.href = '/books';" class="ripple {% if subname == 'home' %}active{% endif %}">Home</li>
+          <li onclick="location.href = '/books/top';" class="ripple {% if subname == 'top' %}active{% endif %}">Top Charts</li>
+          <li onclick="location.href = '/books/new';" class="ripple {% if subname == 'new' %}active{% endif %}">New Arrivals</li>
+          <div class="slider"></div>
+        </ul>
+      {% elif name == 'search' %}
+        <ul>
+          <li class="dropdown">Search:</li>
+          <li onclick="location.href = '/store/search?q={{q}}&c=apps';" class="ripple {% if c == 'apps' %}active{% endif %}">Android Apps</li>
+          <li onclick="location.href = '/store/search?q={{q}}&c=movies';" class="ripple {% if c == 'movies' %}active{% endif %}">Movies</li>
+          <li onclick="location.href = '/store/search?q={{q}}&c=books';" class="ripple {% if c == 'books' %}active{% endif %}">Books</li>
+          <div class="slider"></div>
+        </ul>
+      {% endif %}
+  </header>
+  <div class="icon-bar">
+    <a href="http://www.facebook.com/sharer.php?u={{ current_url }}" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a>
+    <a href="https://twitter.com/share?url={{ current_url }}&amp;text={{appTitle}}" target="_blank"  class="twitter"><i class="fa fa-twitter"></i></a>
+    <a href="https://plus.google.com/share?url={{ current_url }}" target="_blank"  class="google"><i class="fa fa-google-plus"></i></a>
+    <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={{ current_url }}" target="_blank"  class="linkedin"><i class="fa fa-linkedin"></i></a>
+    <a href="mailto:?Subject={{appTitle}}&amp;Body={{appTitle}}-{{ current_url }}" target="_blank"  class="email"><i class="fa fa-send"></i></a>
+  </div>
+  <div class="account">
+    <ul>
+      <li onclick="location.href = '/page/about-us';" class="ripple">About Us</li>
+      <li onclick="location.href = '/page/contact-us';" class="ripple">Contact Us</li>
+      <li onclick="location.href = '/page/DMCA';" class="ripple">DMCA</li>
+    </ul>
+  </div>
+  {% if name == 'apps' or name == 'movies' or name == 'books' %}
+    {% include sidebar %}
+  {% endif %}
+  {% block content %}{% endblock %}
+    <!-- Histats.com  START  (aync)-->
+    <script type="text/javascript">var _Hasync= _Hasync|| [];
+    _Hasync.push(['Histats.start', '1,4238550,4,0,0,0,00010000']);
+    _Hasync.push(['Histats.fasi', '1']);
+    _Hasync.push(['Histats.track_hits', '']);
+    (function() {
+    var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+    hs.src = ('//s10.histats.com/js15_as.js');
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+    })();</script>
+    <noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4238550&101" alt="" border="0"></a></noscript>
+    <!-- Histats.com  END  -->
+  <script src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
+  <script  src="{% static 'js/index.js' %}"></script>
+  <script  src="{% static 'js/jquery.magnific-popup.js' %}"></script>
+  <script  src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+  <script  src="{% static 'js/magnific-popup.js' %}"></script>
+  <script  src="{% static 'js/Slick.js' %}"></script>
+</body>
+</html>
