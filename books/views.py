@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 import requests
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 import json
 from django.db.models import F
 from apps.models import SubCategory
@@ -10,56 +11,64 @@ from books.models import *
 from bs4 import BeautifulSoup
 from django.conf import settings
 import datetime
+import base64
+import urllib.request
 
 def scraping(url):
     source = requests.get(url).text
     soup = BeautifulSoup(source, 'lxml')
-    image = soup.find_all('img', class_='cover-image')
-    price = soup.find_all('span', class_='display-price')
-    star = soup.find_all('div', class_='tiny-star')
-    href = soup.find_all('a', class_='card-click-target', attrs={'data-uitype':'500'})
+    soup = BeautifulSoup(source, 'lxml')
+    image = soup.find_all('img', class_='T75of QNCnCf')
+    title = soup.find_all('div', class_='WsMG1c nnK0zc')
+    subtitle = soup.find_all('a', class_='mnKHRc')
+    price = soup.find_all('span', class_='VfPpfd ZdBevf i5DZme')
+    star = soup.find_all('div', {"role":"img"})
+    href = soup.find_all('div', class_='b8cIId ReQCgd Q9MA7b')
 
-    alts = []
-    srcs = []
+    titles = []
+    stars = []
+    subtitles = []
     prices = []
     hrefs = []
-    stars = []
+    srcs = []
 
+    srcs_value = []
+    subtitles_value = []
     array = []
 
-    def fun(title, image, url, price, star):
+    def fun(title, image, url, price, star, writer):
         dicts = dict();
         dicts['title']   = title
         dicts['image']   = image
         dicts['url']     = url
         dicts['price']  = price
         dicts['star']   = star
+        dicts['writer']   = writer
         array.append(dicts)
 
-    for index, i in enumerate(star):
-        stars.append(star[index].get("aria-label").replace(' stars out of five stars ',''))
+    minarr = min(len(image),len(title),len(subtitle),len(price),len(star),len(href))
 
-    for index, i in enumerate(price):
-        if index%2==0:
-            prices.append(price[index].text)
-        else:
-            continue
+    for index in range(0,len(image),3):
+        srcs_value.append(image[index].get("data-src").replace('https://', ''))
 
-    for i in range(0, len(href)):
-        if "/audiobooks/" in href[i].get("href"):
+    for index in range(len(subtitle)):
+        if subtitle[index].text == None:
             continue
         else:
-            hrefs.append(href[i].get("href").replace('/store',''))
-            alts.append(image[i].get("alt"))
-            srcs.append(image[i].get("src").replace('https://', ''))
+            subtitles_value.append(subtitle[index].text)
 
-    minarr = min(len(alts),len(srcs),len(hrefs),len(prices),len(stars))
-
-    try:
-        for index in range(minarr):
-            fun(alts[index],srcs[index],hrefs[index],prices[index],int(float(stars[index].replace(' Rated ', ''))))
-    except IndexError:
-        array = None
+    for index,i in enumerate(range(minarr)):
+        if "/audiobooks/" in (href[index].find("a", class_="")).get('href'):
+            continue
+        else:
+            fun(
+                title[index].text,
+                srcs_value[index].replace(' ',''),
+                ((href[index].find("a", class_="")).get('href')).replace('/store',''),
+                price[index].text,
+                (star[index].get("aria-label").replace(' stars out of five stars','')).replace('Rated ',''),
+                subtitles_value[index]
+            )
 
     return array
 
@@ -128,12 +137,25 @@ def details_posts(request, slug_posts):
     source = requests.get('https://play.google.com/store/books/details/'+slug_posts+'?id='+id_posts+'&hl=en').text
     soup = BeautifulSoup(source, 'lxml')
     img = soup.find('img', attrs={'itemprop':'image'})
-    title = soup.find_all('span', class_="")
+    title = soup.find_all('h1', class_="AHFaub")
     writer = soup.find('span', class_='UAO9ie')
     star = soup.find('div',attrs={'role':'img'})
-    rating = soup.find_all('span', class_="")
-    desc = soup.find('content')
+    review = soup.find_all('span', class_="AYi5wd ddprqc")
+    desc = soup.find("div", attrs={'itemprop':'description'})
     add = soup.find_all('span', class_='htlgb')
+    publisher = soup.find_all('div', class_='uN7Lic')
+
+    def functitle():
+        for index, i in enumerate(title):
+            return i.find("span", class_='').text
+
+    def funcpub():
+        for index, i in enumerate(publisher):
+            return (i.find("span", class_='').text).replace("Sold by ","")
+
+    def funcreview():
+        for index, i in enumerate(review):
+            return i.find("span", class_='').text
 
     def funcadditional():
         arrayactor = []
@@ -149,7 +171,7 @@ def details_posts(request, slug_posts):
                         slug = slug_posts,
                         link = "https://play.google.com/store/books/details/"+slug_posts+"?id="+id_posts,
                         image = img.get("src"),
-                        title = title[1].text,
+                        title = functitle(),
                         content = desc.text,
                         view = '0',
                         updated_at = datetime.datetime.now(),
@@ -159,9 +181,9 @@ def details_posts(request, slug_posts):
 
         inserts_details = details(id_posts_id = id_posts,
                         star = star.get('aria-label').replace('Rated ',"").replace(' stars out of five stars',""),
-                        rating = rating[3].text,
+                        rating = funcreview(),
                         author = writer.text,
-                        publisher = title[2].text
+                        publisher = funcpub()
                         )
         inserts_details.save()
 
@@ -188,3 +210,33 @@ def booksposts(request, id, slug):
     }
 
     return render_to_response("posts/post_books.html",data)
+
+def download(request, server, id):
+    post = posts.objects.all().filter(id=id)
+    encodedBytes = base64.b64encode((post[0].link).encode("utf-8"))
+    encodedStr = str(encodedBytes, "utf-8")
+    link = post[0].link
+
+    if server == 'server1':
+        config = settings.SERVER1
+        if config == 'adf.ly':
+            uri = "http://api.adf.ly/api.php?key="+settings.ADFLYAPI+"&uid="+settings.ADFLYUID+"&advert_type=int&domain=adf.ly&url="+link+""
+            return HttpResponseRedirect(urllib.request.urlopen(uri).read(1000))
+        elif config == 'sh.st':
+            redirect = "http://sh.st/st/"+settings.SHSTAPI+"/"+link+""
+            return HttpResponseRedirect(redirect)
+        elif config == 'bit.ly':
+            uri = "https://api-ssl.bitly.com/v3/shorten?access_token="+settings.BITLYAPI+"&longUrl="+link+""
+            return HttpResponseRedirect((json.loads((requests.get(uri)).content))['data']['url'])
+
+    if server == 'server2':
+        config = settings.SERVER2
+        if config == 'adf.ly':
+            uri = "http://api.adf.ly/api.php?key="+settings.ADFLYAPI+"&uid="+settings.ADFLYUID+"&advert_type=int&domain=adf.ly&url="+link+""
+            return HttpResponseRedirect(urllib.request.urlopen(uri).read(1000))
+        elif config == 'sh.st':
+            redirect = "http://sh.st/st/"+settings.SHSTAPI+"/"+link+""
+            return HttpResponseRedirect(redirect)
+        elif config == 'bit.ly':
+            uri = "https://api-ssl.bitly.com/v3/shorten?access_token="+settings.BITLYAPI+"&longUrl="+link+""
+            return HttpResponseRedirect((json.loads((requests.get(uri)).content))['data']['url'])

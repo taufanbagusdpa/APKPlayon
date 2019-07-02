@@ -19,10 +19,11 @@ from django.urls import resolve
 def scraping(url):
     source = requests.get(url).text
     soup = BeautifulSoup(source, 'lxml')
-    image = soup.find_all('img', class_='cover-image')
-    title = soup.find_all('a', class_='title')
-    star = soup.find_all('div', class_='tiny-star')
-    subtitle = soup.find_all('a', class_='subtitle')
+    image = soup.find_all('img', class_='T75of QNCnCf')
+    title = soup.find_all('div', class_='WsMG1c nnK0zc')
+    href = soup.find_all('a', class_='poRVub')
+    subtitle = soup.find_all('a', class_='mnKHRc')
+    star = soup.find_all('div', {"role":"img"})
 
     a = []
     b = []
@@ -41,22 +42,25 @@ def scraping(url):
         dicts['star']   = star
         array.append(dicts)
 
-    for index in range(len(image)):
-        a.append(title[index].get("title"))
-        b.append(title[index].get("href").replace('/store',''))
-        c.append(image[index].get("src").replace('https://', ''))
+    for index in range(0,len(image),3):
+        c.append(image[index].get("data-src").replace('https://', ''))
+
+    for index in range(len(title)):
+        a.append(title[index].text)
+        b.append(href[index].get("href").replace('/store',''))
+        d.append(subtitle[index].text)
 
     for index in range(len(subtitle)):
         if subtitle[index].get("title") == None:
             continue
         else:
-            d.append(subtitle[index].get("title"))
+            d.append(subtitle[index].text)
 
     for index, i in enumerate(star):
-        e.append(star[index].get("aria-label").replace(' stars out of five stars ',''))
+        e.append(star[index].get("aria-label").replace(' stars out of five stars',''))
 
     for index in range(len(e)):
-        fun(a[index],b[index],c[index].replace('//', ''),d[index],e[index].replace(' Rated ', ''))
+        fun(a[index],b[index],c[index].replace('//', ''),d[index],e[index].replace('Rated ', ''))
 
     return array
 

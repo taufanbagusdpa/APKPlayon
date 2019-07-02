@@ -1,6 +1,7 @@
 import hashlib
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.shortcuts import redirect
 import requests
@@ -13,50 +14,9 @@ import datetime
 from django.db.models import F
 global str
 from django.db.models import Q
-
-def scraping(url):
-    source = requests.get(url).text
-    soup = BeautifulSoup(source, 'lxml')
-    image = soup.find_all('img', class_='cover-image')
-    title = soup.find_all('a', class_='title')
-    star = soup.find_all('div', class_='tiny-star')
-    subtitle = soup.find_all('a', class_='subtitle')
-
-    a = []
-    b = []
-    c = []
-    d = []
-    e = []
-
-    array = []
-
-    def fun(title, href, image, subtitle,star):
-        dicts = dict();
-        dicts['title']   = title
-        dicts['url']    = href.replace('?id=','/'+slugify(title).replace("-","_")+'?id=')
-        dicts['image']   = image
-        dicts['subtitle']   = subtitle
-        dicts['star']   = star
-        array.append(dicts)
-
-    for index in range(len(image)):
-        a.append(title[index].get("title"))
-        b.append(title[index].get("href").replace('/store',''))
-        c.append(image[index].get("src").replace('https://', ''))
-
-    for index in range(len(subtitle)):
-        if subtitle[index].get("title") == None:
-            continue
-        else:
-            d.append(subtitle[index].get("title"))
-
-    for index, i in enumerate(star):
-        e.append(star[index].get("aria-label").replace(' stars out of five stars ',''))
-
-    for index in range(len(e)):
-        fun(a[index],b[index],c[index].replace('//', ''),d[index],e[index].replace(' Rated ', ''))
-
-    return array
+from downloadapk import views as homeviews
+import base64
+import urllib.request
 
 def index(request, template="apps.html"):
     url = 'https://play.google.com/store/apps/new?hl=en'
@@ -67,7 +27,7 @@ def index(request, template="apps.html"):
         "name": "apps",
         "subname": "home",
         "subcategory": SubCategory.objects.all().filter(id_subcategory=1),
-        "array": scraping(url),
+        "array": homeviews.scraping(url),
         "sidebar": "./sidebars/sidebar_apps.html",
         "current_url": request.build_absolute_uri
     }
@@ -83,7 +43,7 @@ def top(request, template="apps.html"):
         "name": "apps",
         "subname": "top",
         "subcategory": SubCategory.objects.all().filter(id_subcategory=1),
-        "array": scraping(url),
+        "array": homeviews.scraping(url),
         "sidebar": "./sidebars/sidebar_apps.html",
         "current_url": request.build_absolute_uri
     }
@@ -99,7 +59,7 @@ def new(request, template="apps.html"):
         "name": "apps",
         "subname": "new",
         "subcategory": SubCategory.objects.all().filter(id_subcategory=1),
-        "array": scraping(url),
+        "array": homeviews.scraping(url),
         "sidebar": "./sidebars/sidebar_apps.html",
         "current_url": request.build_absolute_uri
     }
@@ -126,7 +86,7 @@ def category(request, slug):
         "name": "apps",
         "subname": "home",
         "subcategory": SubCategory.objects.all().filter(id_subcategory=1),
-        "array": scraping(url),
+        "array": homeviews.scraping(url),
         "sidebar": "./sidebars/sidebar_apps.html",
         "current_url": request.build_absolute_uri
     }
@@ -139,12 +99,20 @@ def details_posts(request, slug_posts):
     soup = BeautifulSoup(source, 'lxml')
     info = soup.find_all('span', class_="htlgb")
     img = soup.find('img', attrs={'itemprop':'image'})
-    title = soup.find_all('span', class_="")
+    title = soup.find_all('h1', class_="AHFaub")
     subtitle = soup.find_all('a', class_="hrTbp R8zArc")
-    review = soup.find_all('span', class_="")
+    review = soup.find_all('span', class_="AYi5wd TBRnV")
     content = soup.find('meta',attrs={'name':'description'})
     ss = soup.find_all('img', alt='Screenshot Image')
     dataadditional = soup.find_all('span', class_='htlgb')
+
+    def functitle():
+        for index, i in enumerate(title):
+            return i.find("span", class_='').text
+
+    def funcreview():
+        for index, i in enumerate(review):
+            return i.find("span", class_='').text
 
     def funcadditional():
         last_value = None
@@ -191,10 +159,10 @@ def details_posts(request, slug_posts):
         exist.update(view=F('view')+1,updated_at=datetime.datetime.now())
     else:
         inserts_posts = posts(id=id_posts,
-                        slug = slugify(title[1].text).replace("-","_"),
+                        slug = slugify(functitle()).replace("-","_"),
                         link = "https://play.google.com/store/apps/details?id="+id_posts,
                         image = img.get("src"),
-                        title = title[1].text,
+                        title = functitle(),
                         content = content.get('content'),
                         version = dataversion,
                         view = '0',
@@ -209,7 +177,7 @@ def details_posts(request, slug_posts):
         inserts_details = table_detail(id_posts_id=id_posts,
                         developer = subtitle[0].text,
                         category = subtitle[1].text,
-                        rating = review[2].text
+                        rating = funcreview()
                         )
         inserts_details.save()
 
@@ -256,7 +224,54 @@ def appsposts(request, version, id):
         "subcategory": SubCategory.objects.all().filter(id_subcategory=1),
         "sidebar": "./sidebars/sidebar_apps.html",
         "current_url": request.build_absolute_uri,
-        "array": scraping(url),
+        "array": homeviews.scraping(url),
     }
 
     return render_to_response("posts/post_apps.html",data)
+
+def download(request, server, version, id):
+    post = posts.objects.all().filter(id=id,version=version)
+    encodedBytes = base64.b64encode((post[0].link).encode("utf-8"))
+    encodedStr = str(encodedBytes, "utf-8")
+    link = post[0].link
+
+    if server == 'server1':
+        config = settings.SERVER1
+        if config == 'adf.ly':
+            uri = "http://api.adf.ly/api.php?key="+settings.ADFLYAPI+"&uid="+settings.ADFLYUID+"&advert_type=int&domain=adf.ly&url="+link+""
+            return HttpResponseRedirect(urllib.request.urlopen(uri).read(1000))
+        elif config == 'sh.st':
+            redirect = "http://sh.st/st/"+settings.SHSTAPI+"/"+link+""
+            return HttpResponseRedirect(redirect)
+        elif config == 'bit.ly':
+            uri = "https://api-ssl.bitly.com/v3/shorten?access_token="+settings.BITLYAPI+"&longUrl="+link+""
+            return HttpResponseRedirect((json.loads((requests.get(uri)).content))['data']['url'])
+
+    if server == 'server2':
+        config = settings.SERVER2
+        if config == 'adf.ly':
+            uri = "http://api.adf.ly/api.php?key="+settings.ADFLYAPI+"&uid="+settings.ADFLYUID+"&advert_type=int&domain=adf.ly&url="+link+""
+            return HttpResponseRedirect(urllib.request.urlopen(uri).read(1000))
+        elif config == 'sh.st':
+            redirect = "http://sh.st/st/"+settings.SHSTAPI+"/"+link+""
+            return HttpResponseRedirect(redirect)
+        elif config == 'bit.ly':
+            uri = "https://api-ssl.bitly.com/v3/shorten?access_token="+settings.BITLYAPI+"&longUrl="+link+""
+            return HttpResponseRedirect((json.loads((requests.get(uri)).content))['data']['url'])
+
+    return HttpResponseRedirect('/generate/'+encodedStr)
+
+def generate(request, url):
+    encodedBytes = base64.b64decode(url)
+    link = str(encodedBytes, "utf-8")
+    config = settings.DLLINK
+
+    if config == 'adf.ly':
+        uri = "http://api.adf.ly/api.php?key="+settings.ADFLYAPI+"&uid="+settings.ADFLYUID+"&advert_type=int&domain=adf.ly&url="+link+""
+        return HttpResponseRedirect(urllib.request.urlopen(uri).read(1000))
+    elif config == 'sh.st':
+        redirect = "http://sh.st/st/"+settings.SHSTAPI+"/"+link+""
+        return HttpResponseRedirect(redirect)
+    elif config == 'bit.ly':
+        uri = "https://api-ssl.bitly.com/v3/shorten?access_token="+settings.BITLYAPI+"&longUrl="+link+""
+        return HttpResponseRedirect((json.loads((requests.get(uri)).content))['data']['url'])

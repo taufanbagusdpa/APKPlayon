@@ -13,6 +13,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 
 APP_NAME = 'APK Playon'
+SERVER1 = 'sh.st' # adf.ly, sh.st, bit.ly
+SERVER2 = 'adf.ly' # adf.ly, sh.st, bit.ly
+DLLINK = 'adf.ly' # adf.ly, sh.st, bit.ly
+ADFLYAPI = '96fd3eab6a805ca63b63118a0d0a0cda'
+ADFLYUID = '3640408'
+SHSTAPI = '918782f16586c0e23d7966110855a230'
+BITLYAPI = '27bda2f6ac6564655088165a7c12326facb19b76'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -23,8 +23,12 @@
       </div>
       <div class="col-md-12">
         <div class="col-watch">
-          <button class="watch" type="button" name="button">Server #1</button>
-          <button class="watch" type="button" name="button">Server #2</button>
+          <a href="#" onclick="window.open('/movies/download/server1/{{post.0.id}}')" class="btn btn-primary" title="Download {{ post.0.title }} Server #1">
+            <button class="watch" type="button" name="button">Server #1</button>
+          </a>
+          <a href="#" onclick="window.open('/movies/download/server2/{{post.0.id}}')" class="btn btn-primary" title="Download {{ post.0.title }} Server #2">
+            <button class="watch" type="button" name="button">Server #2</button>
+          </a>
         </div>
       </div>
     </div>
