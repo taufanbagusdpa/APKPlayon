@@ -8,3 +8,5 @@ APKPlayon is an easy way to find and download your favourite apk file. You can f
 
 # Important Notice
 APKPlayon is NOT associated or affiliated with Google, Google Play or Android in any way. Android is a trademark of Google Inc. All the apps & games are property and trademark of their respective developer or publisher and for HOME or PERSONAL use ONLY. Please be aware that APKPure.com ONLY SHARE THE ORIGINAL APK FILE FOR FREE APPS. ALL THE APK FILE IS THE SAME AS IN GOOGLE PLAY WITHOUT ANY CHEAT, UNLIMITED GOLD PATCH OR ANY OTHER MODIFICATIONS.</p>
+
+<a href="https://jualsaldo.com">top up saldo paypal</a>
